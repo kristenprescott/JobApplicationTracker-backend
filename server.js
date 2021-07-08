@@ -2,9 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const path = require("path");
-
-const Application = require("./models/Application");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -28,12 +25,6 @@ mongoose.connection.once("connected", () =>
 );
 
 // ROUTES
-// app.use(express.static(path.join(__dirname, "build")));
-
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
-
 app.use("/applications", require("./controllers/applicationsController"));
 
 app.get("/", (req, res) => {
