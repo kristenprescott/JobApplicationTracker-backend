@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8080;
 app.use("/applications", require("./controllers/applicationsController"));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "/*");
   next();
 });
 
@@ -35,12 +35,12 @@ mongoose.connection.once("connected", () =>
 
 // ROUTES
 app.get("/*", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "/*");
   res.send();
 });
 
 app.get("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "/*");
   res.send(
     `
       <center>
@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/applications", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "/*");
   res.send();
 });
 
