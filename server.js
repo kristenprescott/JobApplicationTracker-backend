@@ -10,41 +10,39 @@ const PORT = process.env.PORT || 8080;
 // If you have more origins you would like to add, you can add them to the array below.
 // const allowedOrigins = ["http://localhost:3000", "*"];
 // const options: cors.CorsOptions = {
-//   origin: "/*",
-// };
-// const corsOptions = {
-//   // origin: "https://jobapptracker.netlify.app/*"
 //   origin: "*",
-//   optionsSuccessStatus: 200, // For legacy browser support
 // };
+const corsOptions = {
+  // origin: "https://jobapptracker.netlify.app/*"
+  origin: "*",
+  optionsSuccessStatus: 200, // For legacy browser support
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 // app.use(cors(options));
 // app.use(cors());
 
-const allowlist = [
-  "http://localhost:3000",
-  "https://jobapptracker.netlify.app/*",
-  "*",
-];
+// const allowlist = [
+//   "http://localhost:3000",
+//   "https://jobapptracker.netlify.app/*",
+//   "*",
+// ];
+// const corsOptionsDelegate = (req, callback) => {
+//   let corsOptions;
 
-const corsOptionsDelegate = (req, callback) => {
-  let corsOptions;
+//   let isDomainAllowed = whitelist.indexOf(req.header("Origin")) !== -1;
+//   // let isExtensionAllowed = req.path.endsWith(".jpg");
 
-  let isDomainAllowed = whitelist.indexOf(req.header("Origin")) !== -1;
-  // let isExtensionAllowed = req.path.endsWith(".jpg");
-
-  if (isDomainAllowed && isExtensionAllowed) {
-    // Enable CORS for this request
-    corsOptions = { origin: true };
-  } else {
-    // Disable CORS for this request
-    corsOptions = { origin: false };
-  }
-  callback(null, corsOptions);
-};
-
-app.use(cors(corsOptionsDelegate));
+//   if (isDomainAllowed && isExtensionAllowed) {
+//     // Enable CORS for this request
+//     corsOptions = { origin: true };
+//   } else {
+//     // Disable CORS for this request
+//     corsOptions = { origin: false };
+//   }
+//   callback(null, corsOptions);
+// };
+// app.use(cors(corsOptionsDelegate));
 
 app.use(express.json());
 
