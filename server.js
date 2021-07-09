@@ -8,13 +8,43 @@ const PORT = process.env.PORT || 8080;
 
 // Add a list of allowed origins.
 // If you have more origins you would like to add, you can add them to the array below.
-const allowedOrigins = ["http://localhost:3000", "/*", "*"];
+// const allowedOrigins = ["http://localhost:3000", "*"];
+// const options: cors.CorsOptions = {
+//   origin: "/*",
+// };
+// const corsOptions = {
+//   // origin: "https://jobapptracker.netlify.app/*"
+//   origin: "*",
+//   optionsSuccessStatus: 200, // For legacy browser support
+// };
 
-const options = (cors.CorsOptions = {
-  origin: allowedOrigins,
-});
+// app.use(cors(corsOptions));
+// app.use(cors(options));
+// app.use(cors());
 
-app.use(cors(options));
+const allowlist = [
+  "http://localhost:3000",
+  "https://jobapptracker.netlify.app/*",
+  "*",
+];
+
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions;
+
+  let isDomainAllowed = whitelist.indexOf(req.header("Origin")) !== -1;
+  // let isExtensionAllowed = req.path.endsWith(".jpg");
+
+  if (isDomainAllowed && isExtensionAllowed) {
+    // Enable CORS for this request
+    corsOptions = { origin: true };
+  } else {
+    // Disable CORS for this request
+    corsOptions = { origin: false };
+  }
+  callback(null, corsOptions);
+};
+
+app.use(cors(corsOptionsDelegate));
 
 app.use(express.json());
 
@@ -43,12 +73,10 @@ mongoose.connection.once("connected", () =>
 
 // ROUTES
 app.get("https://*", (req, res) => {
-  // res.setHeader("Access-Control-Allow-Origin", "https://*");
   res.send();
 });
 
 app.get("/", (req, res) => {
-  // res.setHeader("Access-Control-Allow-Origin", "https://*");
   res.send(
     `
       <center>
