@@ -6,12 +6,15 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use("/applications", require("./controllers/applicationsController"));
+// Add a list of allowed origins.
+// If you have more origins you would like to add, you can add them to the array below.
+const allowedOrigins = ["http://localhost:3000", "/*", "*"];
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "/*");
-  next();
+const options = (cors.CorsOptions = {
+  origin: allowedOrigins,
 });
+
+app.use(cors(options));
 
 app.use(express.json());
 
@@ -20,7 +23,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors());
+app.use("/applications", require("./controllers/applicationsController"));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
@@ -34,13 +42,13 @@ mongoose.connection.once("connected", () =>
 );
 
 // ROUTES
-app.get("/*", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "/*");
+app.get("https://*", (req, res) => {
+  // res.setHeader("Access-Control-Allow-Origin", "https://*");
   res.send();
 });
 
 app.get("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "/*");
+  // res.setHeader("Access-Control-Allow-Origin", "https://*");
   res.send(
     `
       <center>
@@ -61,7 +69,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/applications", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "/*");
+  // res.setHeader("Access-Control-Allow-Origin", "https://*");
   res.send();
 });
 
