@@ -81,8 +81,8 @@ router.post("/applicationsent/:id", async (req, res) => {
       { _id: req.params.id },
       { applicationSent: !applicationRef.applicationSent }
     );
-
     await application.save();
+
     res.send(application);
   } catch (error) {
     res.status(400).json({
@@ -103,6 +103,7 @@ router.post("/response/:id", async (req, res) => {
     );
 
     await application.save();
+
     res.send(application);
   } catch (error) {
     res.status(400).json({
@@ -165,7 +166,7 @@ router.delete("/:id", async (req, res) => {
 
 module.exports = router;
 /*////////////////////////////////////////////////////////////////////////////////////*/
-// NOTE: POST/PUT/PATCH:                                                              //
+// * NOTE: POST/PUT/PATCH:                                                            //
 // ---------------------------------------------------------------------------------- //
 //  * POST : always for creating a resource (does not matter if it was duplicated)    //
 //      - If the client sends data without any identifier, then we will store the     //
